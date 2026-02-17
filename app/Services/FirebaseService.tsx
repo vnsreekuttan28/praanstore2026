@@ -18,7 +18,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db=getFirestore(app)
 
-console.log("Firebase API Key:", process.env.NEXT_PUBLIC_FIREBASE_API_KEY);
 
  
 
