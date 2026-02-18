@@ -9,13 +9,13 @@ export interface OrderItem {
     status: string;
 }
 
-export interface OrderCustomer {
-    address: string;
-    contact: string;
-    id: string;
-    location: string;
-    name: string;
-}
+// export interface OrderCustomer {
+//     address: string;
+//     contact: string;
+//     id: string;
+//     location: string;
+//     name: string;
+// }
 
 export interface Payment {
     total: string,
