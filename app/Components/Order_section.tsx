@@ -92,7 +92,12 @@ const Order_section = () => {
 
     const getuserslist = async () => {
         const users = await fetchUsers()
-        Setuserslist(users)
+        const activeuser=users.filter((user)=>{
+            return(
+                user.status==='active'
+            )
+        })
+        Setuserslist(activeuser)
 
         if (userslist.length > 0 && !input_orderasiigedto) {
             Set_input_orderassigedto(userslist[0].id);
@@ -101,7 +106,12 @@ const Order_section = () => {
 
     const getstorelist = async () => {
         const store = await fetchStore()
-        Setstorelist(store)
+        const activestore=store.filter((s)=>{
+            return(
+                s.status==='active'
+            )
+        })
+        Setstorelist(activestore)
 
         if (storelist.length > 0 && !input_storeid) {
             Set_inputstoreid(storelist[0].id);
@@ -111,7 +121,12 @@ const Order_section = () => {
 
     const getproductsList = async () => {
         const products = await fetchProducts()
-        Setcurrentproducts(products)
+        const activeproducts=products.filter((p)=>{
+            return(
+                p.status==="active"
+            )
+        })
+        Setcurrentproducts(activeproducts)
 
     }
 
