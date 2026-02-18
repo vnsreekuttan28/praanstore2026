@@ -2,9 +2,7 @@ import Image from "next/image";
 import Header from "./Components/Header";
 import { Store, User } from "lucide-react";
 // import Orders from "./Components/Orders";
-import Stores from "./Components/Stores";
-import Users from "./Components/Users";
-import Products from "./Components/Products";
+
 import Store_section from "./Components/Store_section";
 import Users_section from "./Components/Users_section";
 import Products_section from "./Components/Products_section";
