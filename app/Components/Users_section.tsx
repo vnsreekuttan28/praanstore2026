@@ -6,6 +6,7 @@ import { fetchOrders, OrderModel } from '../Models/OrderModel'
 
 const Users_section = () => {
     const [_currentUsers, SetCurrentUsers] = useState<UserModel[]>([]);
+    const [_allUsers, SetAllUsers] = useState<UserModel[]>([]);
     const [_currentOrders, SetCurrentOrders] = useState<OrderModel[]>([]);
     const [_filteredUsers, SetFilteredUsers] = useState<UserModel[]>([]);
     const [openUserform, SetOpenUserform] = useState(false);
@@ -37,7 +38,11 @@ const Users_section = () => {
     //get users list
     const getUsers = async () => {
         const users = await fetchUsers();
-        SetCurrentUsers(users)
+        const active_users=users.filter((user)=>{
+            return(user.status===("active"))
+        })
+        SetCurrentUsers(active_users)
+        SetAllUsers(users);
         SetNewuserID((users.length + 1).toString())
     }
 
@@ -83,26 +88,48 @@ const Users_section = () => {
 
     //delete user
     const DeleteUser=async()=>{
-        if(selectedUser){
-           await deleteUser(selectedUser). then(()=>{
-            SetRefresh(!Refresh);
-            SetopenDeleteDialog(false)
-           }) 
+
+        deactivateUser();
+       
+        // if(selectedUser){
+        //    await deleteUser(selectedUser). then(()=>{
+        //     SetRefresh(!Refresh);
+        //     SetopenDeleteDialog(false)
+        //    })  
+        // }   
+    }
+
+    //deactivate user
+    const deactivateUser=async()=>{
+        if(!selectedUser){
+            return;
         }
-        
 
-        
+         const u = {
+            id: selectedUser.id,
+            name: selectedUser.name,
+            contact: selectedUser.contact,
+            pw: selectedUser.pw,
+            role: selectedUser.role,
+            status:"deactivated"
+        }
 
+        await addUser(u).then(() => {
+            SetRefresh(!Refresh);
+            closeForm();
+        })
 
     }
 
     //close form
     const closeForm = () => {
+        SetNewuserID((_allUsers.length + 1).toString())
         SetNewusername("");
         SetNewuserpw("");
         SetNewuserrole("");
         SetNewusercontact("");
         SetOpenUserform(false)
+        SetopenDeleteDialog(false)
 
     }
 
@@ -116,7 +143,8 @@ const Users_section = () => {
             name: newUsername,
             contact: newUsercontact,
             pw: newUserpw,
-            role: newUserrole
+            role: newUserrole,
+            status:"active"
         }
 
         await addUser(u).then(() => {
@@ -137,7 +165,7 @@ const Users_section = () => {
 
                 <div className='flex flex-col gap-2'>
                     <h1 className='font-bold text-xl'>Users</h1>
-                    <p className='text-sm text-gray-500'>{_currentUsers.length} registered Users found</p>
+                    <p className='text-sm text-gray-500'>{_currentUsers.length} active users found</p>
                 </div>
 
 
@@ -248,7 +276,7 @@ const Users_section = () => {
 
                             <div className='flex flex-col'>
                                 <h1 className='text-xs font-sans'>USER CONTACT</h1>
-                                <input value={newUsercontact} onChange={(e) => { SetNewusercontact(e.target.value) }} placeholder='Enter user phone number' type="phonenumber" className='w-full p-2 bg-gray-200 rounded-xl' />
+                                <input value={newUsercontact} onChange={(e) => { SetNewusercontact(e.target.value) }} placeholder='Enter user phone number' type="number" className='w-full p-2 bg-gray-200 rounded-xl' />
                             </div>
 
                             <div className='flex flex-col'>

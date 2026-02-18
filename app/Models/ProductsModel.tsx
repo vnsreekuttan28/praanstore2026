@@ -1,4 +1,4 @@
-import { collection, deleteDoc, doc, getDocs, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../Services/FirebaseService";
 
 export interface ProductModel {
@@ -45,4 +45,10 @@ export const addProduct = async (newProduct: ProductModel) => {
 export const deleteProduct= async(product: ProductModel)=>{
     const ref=doc(db,'products', product.id)
     await deleteDoc(ref);
+}
+
+//deactivate product
+export const deactivateProduct=async(product:ProductModel)=>{
+    const ref=doc(db,"products",product.id)
+    await updateDoc(ref,{status:"inactive"})
 }

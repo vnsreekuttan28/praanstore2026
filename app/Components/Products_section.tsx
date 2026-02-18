@@ -1,11 +1,12 @@
 'use client'
 import { Package, Search, Trash } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
-import { addProduct, deleteProduct, fetchProducts, ProductModel } from '../Models/ProductsModel'
+import { addProduct, deactivateProduct, deleteProduct, fetchProducts, ProductModel } from '../Models/ProductsModel'
 
 const Products_section = () => {
 
     const [_currentProducts, SetcurrentProducts] = useState<ProductModel[]>([])
+    const [_allProducts, SetAllProducts] = useState<ProductModel[]>([])
     const [_filteredProducts, SetFilteredProducts] = useState<ProductModel[]>([])
     const [searchQuerry, setSearchQuery] = useState('')
     const [opneProductform, SetOpenproductform] = useState(false);
@@ -15,7 +16,7 @@ const Products_section = () => {
     const [input_productName, Setinput_productName] = useState('')
     const [input_productprice, Setinput_productprice] = useState('')
     const [input_productimg, Setinput_productimg] = useState('')
-    const [input_productstatus, Setinput_productstatus] = useState('instock')
+    const [input_productstatus, Setinput_productstatus] = useState('active')
     const [selectedProduct, SetselectedProduct] = useState<ProductModel>()
      const [isfetched, Setisfetched]=useState(false);
 
@@ -31,7 +32,7 @@ const Products_section = () => {
 
     useEffect(() => {
         filterProducts();
-        Setinput_productid((_currentProducts.length + 1).toString())
+        Setinput_productid((_allProducts.length + 1).toString())
 
 
     }, [_currentProducts, searchQuerry])
@@ -39,8 +40,14 @@ const Products_section = () => {
     //get producys list
     const getProducts = async () => {
         const products = await fetchProducts();
-        SetcurrentProducts(products);
-        Setinput_productid((_currentProducts.length + 1).toString())
+        const activeproducts=products.filter((p)=>{
+            return(
+                p.status==="active"
+            )
+        })
+        SetcurrentProducts(activeproducts);
+        SetAllProducts(products);
+        Setinput_productid((_allProducts.length + 1).toString())
 
 
     }
@@ -105,11 +112,17 @@ const Products_section = () => {
 
     const DeleteProduct = async () => {
         if (selectedProduct) {
-            await deleteProduct(selectedProduct).then(() => {
+            deactivateProduct(selectedProduct).then(() => {
                 SetOpenDeleteform(false);
                 Setrefresh(!Refresh)
             })
         }
+                
+        //     await deleteProduct(selectedProduct).then(() => {
+        //         SetOpenDeleteform(false);
+        //         Setrefresh(!Refresh)
+        //     })
+        // }
 
 
 

@@ -1,7 +1,7 @@
 'use client'
 import { Plus, Search, ShoppingCart, Trash, User } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
-import { addOrder, deleteOrder, fetchOrders, OrderItem, OrderModel, OrderStatus } from '../Models/OrderModel'
+import { addOrder, cancelOrder, deleteOrder, fetchOrders, OrderItem, OrderModel, OrderStatus } from '../Models/OrderModel'
 import { fetchUsers, UserModel } from '../Models/UserModel'
 import { fetchStore, StoreModel } from '../Models/StoreModel'
 import { fetchProducts, ProductModel } from '../Models/ProductsModel'
@@ -296,10 +296,18 @@ const Order_section = () => {
     }
     const DeleteOrder=async()=>{
         if(selectedorder){
-            await deleteOrder(selectedorder).then(()=>{
+            await cancelOrder(selectedorder).then(()=>{
                   SetopenDeleteDialog(false)
                   Setrefresh(!Refresh)
             })
+
+
+
+
+            // await deleteOrder(selectedorder).then(()=>{
+            //       SetopenDeleteDialog(false)
+            //       Setrefresh(!Refresh)
+            // })
         }
      
         
@@ -576,14 +584,14 @@ const Order_section = () => {
                                 <div className='relative  bg-white w-full max-w-md rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in duration-200 '>
                                     <div className='p-6 border-b flex gap-5 items-center'>
                                         <Trash color='red'/>
-                                        <h2 className='text-xl font-bold text-gray-800'>Delete Order</h2>
+                                        <h2 className='text-xl font-bold text-gray-800'>Cancel Order</h2>
                                     </div>
             
                                     <div className='flex flex-col gap-5 p-4 items-center'>
-                                        <p>Confirm that you want to delete store '{selectedorder?.id}'</p>
+                                        <p>Confirm that you want to cancel store '{selectedorder?.id}'</p>
                                         <div className='flex gap-5 items-center cursor-pointer'>
                                             <p onClick={()=>{SetopenDeleteDialog(false) }} className='text-green-500 text-sm'>Cancel</p>
-                                            <div onClick={DeleteOrder} className='px-4 py-2 bg-red-500 text-white text-lg font-semibold rounded-xl'>Delete</div>
+                                            <div onClick={DeleteOrder} className='px-4 py-2 bg-red-500 text-white text-lg font-semibold rounded-xl'>Cancel</div>
             
                                         </div>
             

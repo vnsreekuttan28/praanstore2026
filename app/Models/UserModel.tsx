@@ -1,4 +1,4 @@
-import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs, setDoc, where } from "firebase/firestore";
 import { db } from "../Services/FirebaseService";
 import { promises } from "dns";
 import { ref } from "firebase/database";
@@ -9,7 +9,7 @@ export interface UserModel {
     contact: string;
     pw: string;
     role: string;
-    status?: string
+    status: string
 
 }
 
@@ -24,7 +24,7 @@ export const fetchUsers = async (): Promise<UserModel[]> => {
             contact: data.contact,
             pw: data.pw,
             role: data.role,
-            status: data.status??"",
+            status: data.status,
             
 
 

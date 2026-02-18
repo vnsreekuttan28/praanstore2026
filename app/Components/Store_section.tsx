@@ -1,12 +1,13 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { addStore, deleteStore, fetchStore, StoreModel } from '../Models/StoreModel'
+import { addStore, deactivateStore, deleteStore, fetchStore, StoreModel } from '../Models/StoreModel'
 import { fetchOrders, OrderModel } from '../Models/OrderModel';
 import { Contact, Store, MapPin, Phone, Plus, X, Loader2, Delete, Trash, Search } from 'lucide-react'
 
 
 const Store_section = () => {
     const [_currentStores, SetCurrentStore] = useState<StoreModel[]>([]);
+    const [_AllStores, SetAllStore] = useState<StoreModel[]>([]);
     const [_filteredStores, SetFilteredStore] = useState<StoreModel[]>([]);
     const [_currentOrders, SetCurrentOrder] = useState<OrderModel[]>([]);
     const [Refresh, SetRefresh] = useState(false);
@@ -42,8 +43,14 @@ const Store_section = () => {
     //getting stores list
     const getCurrentStores = async () => {
         const stores = await fetchStore();
-        SetCurrentStore(stores);
-        SetFilteredStore(stores)
+        const active_stores=stores.filter((store)=>{
+            return(
+                store.status==="active"
+            )
+        })
+        SetCurrentStore(active_stores);
+        SetAllStore(stores);
+        SetFilteredStore(active_stores)
         Set_input_storeid((stores.length + 1).toString())
 
     }
@@ -107,7 +114,8 @@ const Store_section = () => {
             name: input_storename,
             contact: input_storecontact,
             address: input_storeaddress,
-            location: input_storelocation
+            location: input_storelocation,
+            status:"active"
         }
         await addStore(store).then(() => {
             Closeform();
@@ -126,14 +134,25 @@ const Store_section = () => {
 
     }
     const DeleteStore=async ()=>{
-        if(selectedStore){
-            await deleteStore(selectedStore).then(()=>{
+
+         if(selectedStore){
+           deactivateStore(selectedStore).then(()=>{
                 SetopenDeleteDialog(false);
                 SetRefresh(!Refresh)
             })
         }
+
+    
+        // if(selectedStore){
+        //     await deleteStore(selectedStore).then(()=>{
+        //         SetopenDeleteDialog(false);
+        //         SetRefresh(!Refresh)
+        //     })
+        // }
         
     }
+
+    
 
 
 
@@ -149,7 +168,7 @@ const Store_section = () => {
 
                 <div className='flex flex-col gap-2'>
                      <h1 className='font-bold text-xl'>Stores</h1>
-                     <p className='text-sm text-gray-500'>{_currentStores.length} registered stores found</p>
+                     <p className='text-sm text-gray-500'>{_currentStores.length} active stores found</p>
                 </div>
 
                

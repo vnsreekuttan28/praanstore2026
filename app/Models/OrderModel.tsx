@@ -1,4 +1,4 @@
-import { collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../Services/FirebaseService";
 
 export interface OrderItem {
@@ -88,4 +88,12 @@ export const addOrder = async (neworder: OrderModel) => {
 export const deleteOrder=async(order:OrderModel)=>{
   const orderref=doc(db,'orders',order.id);
   await deleteDoc(orderref)
+}
+
+//cancel order 
+export const cancelOrder=async(order:OrderModel)=>{
+    const ref=doc(db, "orders",order.id)
+
+    await updateDoc(ref, {order_status:"Cancelled"})
+
 }
