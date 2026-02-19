@@ -63,7 +63,7 @@ const Order_section = () => {
             return(
                 order.customer.name.toLowerCase().includes(querry) || 
                 order.customer.contact.toLowerCase().includes(querry) || 
-                order.assiged_to.name.toLowerCase().includes(querry) || 
+                order.assigned_to.name.toLowerCase().includes(querry) || 
                 order.id.toLowerCase().includes(querry) || 
                 order.order_status.toLowerCase().includes(querry) 
             )
@@ -258,8 +258,8 @@ const Order_section = () => {
 
         const order = {
             id: input_orderid,
-            assiged_by: "Admin",
-            assiged_to: assinedperson,
+            assigned_by: "Admin",
+            assigned_to: assinedperson,
             payment: _payment,
             timestamp: _timestamp,
             order_items: _orderItems,
@@ -297,7 +297,7 @@ const Order_section = () => {
         Set_input_orderid(order.id)
         Set_input_customercontat(order.customer.contact)
         Set_input_customername(order.customer.name)
-        Set_input_orderassigedto(order.assiged_to.id)
+        Set_input_orderassigedto(order.assigned_to.id)
         Set_inputstoreid(order.store_id)
         SetOpenOrderform(true);
         
@@ -373,7 +373,7 @@ const Order_section = () => {
                         <div className='w-full flex flex-col gap-2'>
                             <p className='text-xs text-green-500 font-mono'>#{order.id}</p>
                             <div className='flex gap-3 justify-between '> 
-                                <h1 className='text-xs p-2 bg-yellow-50 rounded-md'>Assigend to: {order.assiged_to.name} - #{order.assiged_to.id}</h1>
+                                <h1 className='text-xs p-2 bg-yellow-50 rounded-md'>Assigend to: {order.assigned_to.name} - #{order.assigned_to.id}</h1>
                                 <div className='flex flex-col '>
                                      <div className={`text-[10px] ${order.order_status.includes('Delivered')?"bg-green-500":order.order_status.includes('Cancel')?"bg-red-400":"bg-yellow-200"} flex flex-col px-2 rounded-xl`}>{order.order_status}</div>
                                 </div>

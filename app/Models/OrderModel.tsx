@@ -46,8 +46,8 @@ export interface assigendto{
 
 export interface OrderModel {
     id: string;
-    assiged_by: string;
-    assiged_to: assigendto;
+    assigned_by: string;
+    assigned_to: assigendto;
     payment: Payment;
     timestamp: Timestamp;
     order_items:OrderItem[];
