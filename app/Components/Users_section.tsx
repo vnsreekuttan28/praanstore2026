@@ -189,7 +189,7 @@ const Users_section = () => {
                 {_filteredUsers.map((user, index) => {
 
                     const userOrders = _currentOrders.filter((o) => {
-                        return o.assiged_to.id === user.id
+                        return o.assigned_to.id === user.id
                     })
 
                     const completedOrder = userOrders.filter((o) => {
