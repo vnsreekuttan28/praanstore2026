@@ -126,7 +126,7 @@ const Users_section = () => {
         SetNewuserID((_allUsers.length + 1).toString())
         SetNewusername("");
         SetNewuserpw("");
-        SetNewuserrole("");
+        SetNewuserrole("Field Staff");
         SetNewusercontact("");
         SetOpenUserform(false)
         SetopenDeleteDialog(false)
